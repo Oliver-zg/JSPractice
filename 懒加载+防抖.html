@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .bg {
+    height: 200px;
+    width: 100%;
+    background-color: aqua;
+    margin: 20px;
+  }
+</style>
+<body>
+  <div class="bg"></div>
+  <div class="bg"></div>
+  <div class="bg"></div>
+  <div class="bg"></div>
+  <div class="bg"></div>
+  <div class="bg"></div>
+  <div class="bg"></div>
+</body>
+<script>
+  let bgs = document.querySelectorAll('.bg');
+  const viewHeight = window.innerHeight || document.documentElement.clientHeight;
+  // num用于统计当前显示到了哪一张图片，避免每次都从第一张图片开始检查是否露出
+  let num = 0;
+  function lazyload() {
+    bgs.forEach((item,index) => {
+      //getBoundingClientRect 获取某个元素相对于视窗的位置集合
+      let distance = viewHeight - item.getBoundingClientRect().top
+      if(distance > 0) {
+          item.style.backgroundColor = "red"
+      }
+    }) 
+  }
+  //防抖函数
+  function debounce(fn,delay = 1000) {
+    let timer = null;
+    return function(...args) {
+      // console.log('我是防抖函数的返回函数');
+      clearTimeout(timer);
+      timer = setTimeout(()=> {
+        fn.call(this,args)
+        // fn()
+      },delay)
+  }}
+ 
+  lazyload()
+  const refresh = debounce(lazyload)
+  window.addEventListener('scroll',()=> refresh(),false)
+</script>
+</html>

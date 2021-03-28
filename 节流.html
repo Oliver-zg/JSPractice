@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="input"/>
+  </body>
+  <script>
+    let ele = document.getElementById('input');
+
+    function outValue(value) {
+      console.log(value);
+    }
+    
+    function throttle(fn, delay = 500) {
+      let begin = 0;
+      return function () {
+        let now = new Date().getTime();
+        if (now - begin > delay) {
+          fn.apply(this, arguments);
+          begin = now; //闭包
+        }
+      };
+    }
+    const thro = throttle(outValue);
+
+    ele.addEventListener('keyup',(e)=> thro(e.target.value), false);
+    // ele.addEventListener('keyup',(e)=> throttle(outValue(e.target.value)), false);
+  </script>
+</html>
+<!-- function ajax(content) {
+  console.log('ajax request ' + content)
+}
+     function throttle(fun, delay) {
+        let last, deferTimer
+        return function (args) {
+            let that = this
+            let _args = arguments
+            let now = +new Date()
+            if (last && now < last + delay) {
+                clearTimeout(deferTimer)
+                deferTimer = setTimeout(function () {
+                    last = now
+                    fun.apply(that, _args)
+                }, delay)
+            }else {
+                last = now
+                fun.apply(that,_args)
+            }
+        }
+    }
+
+    let throttleAjax = throttle(ajax, 1000)
+
+    let inputc = document.getElementById('throttle')
+    inputc.addEventListener('keyup', function(e) {
+        throttleAjax(e.target.value)
+    }) -->
