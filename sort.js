@@ -46,9 +46,9 @@ function quickSort (nums, k) {
     if (left > right) return;
     const randomIndex = Math.floor(Math.random() * (right - left + 1)) + left // 随机index
     swap(nums, randomIndex, right) // nums[right] 作为pivot
-    partition(nums, left, right)
-    quick(left, right - 1)
-    quick(left + 1, right)
+    let pivot = partition(nums, left, right)
+    quick(left, pivot - 1)
+    quick(pivot + 1, right)
   }
   quick(0, n - 1)
   return nums
